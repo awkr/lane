@@ -1,3 +1,3 @@
-goals:
+features:
 - ddgi
 - pbr
