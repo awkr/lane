@@ -2,6 +2,9 @@
 #include <iostream>
 #include <GLFW/glfw3.h>
 #include <glad/gl.h>
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
 
 static void error_callback(int error, const char *description) {
     std::cerr << "error: " << description << std::endl;
@@ -46,17 +49,45 @@ int main() {
     auto gl_version = gladLoadGL((GLADloadfunc) glfwGetProcAddress);
     std::cout << "GL version " << GLAD_VERSION_MAJOR(gl_version) << "." << GLAD_VERSION_MINOR(gl_version) << std::endl;
 
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGui::StyleColorsLight();
+    ImGuiIO &io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+    bool succeed = ImGui_ImplGlfw_InitForOpenGL(window, true);
+    assert(succeed);
+    succeed = ImGui_ImplOpenGL3_Init("#version 400");
+    assert(succeed);
+
     int width, height;
     glfwGetFramebufferSize(window, &width, &height);
     std::cout << "framebuffer size: " << width << "x" << height << std::endl;
     glViewport(0, 0, width, height);
 
     while (!glfwWindowShouldClose(window)) {
+        ImGui_ImplGlfw_NewFrame();
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui::NewFrame();
+//        ImGui::SetNextWindowPos(ImVec2(20, 20)); // 设置窗口位置为屏幕坐标 (20, 20)
+        ImGui::SetNextWindowPos(ImVec2(100, 100), ImGuiCond_FirstUseEver);  // 设置窗口位置为屏幕坐标 (100, 100)
+//        ImGui::SetNextWindowSize(ImVec2(400, 300), ImGuiCond_FirstUseEver); // 设置窗口大小为 400x300 像素
+        ImGui::Begin("Hello, World!");
+        ImGui::Text("Hello, World!");
+        ImGui::End();
+//        ImGui::ShowDemoWindow();
+        ImGui::Render();
+
         glClearColor(0.5f, 0.4f, 0.5f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
+
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 
     glfwDestroyWindow(window);
 
