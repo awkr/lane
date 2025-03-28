@@ -8,4 +8,4 @@ add_executable(lane main.cpp)
 add_subdirectory(third_party)
 
 target_compile_definitions(lane PUBLIC GLFW_INCLUDE_NONE)
-target_link_libraries(lane PUBLIC glfw glad)
+target_link_libraries(lane PUBLIC imgui) # glfw glad 已经在 imgui 中链接了
