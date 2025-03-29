@@ -30,13 +30,15 @@ int main() {
     glfwSetErrorCallback(error_callback);
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-#ifdef __APPLE__
+#if defined(__APPLE__)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+#elif defined(WIN32)
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
 #else
 #error "unsupported platform"
 #endif
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 
     GLFWwindow *window = glfwCreateWindow(640, 480, "Hello, World!", nullptr, nullptr);
     assert(window != nullptr);
