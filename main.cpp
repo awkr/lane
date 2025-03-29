@@ -30,8 +30,10 @@ int main() {
     glfwSetErrorCallback(error_callback);
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-#ifdef __APPLE__
+#if defined(__APPLE__)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+#elif defined(WIN32)
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
 #else
 #error "unsupported platform"
 #endif
