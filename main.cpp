@@ -51,6 +51,16 @@ int main() {
     auto gl_version = gladLoadGL((GLADloadfunc) glfwGetProcAddress);
     std::cout << "GL version " << GLAD_VERSION_MAJOR(gl_version) << "." << GLAD_VERSION_MINOR(gl_version) << std::endl;
 
+    {
+        int num_extensions = 0;
+        glGetIntegerv(GL_NUM_EXTENSIONS, &num_extensions);
+
+        for (int i = 0; i < num_extensions; i++) {
+            const char *extension = (const char *) glGetStringi(GL_EXTENSIONS, i);
+            std::cout << "extension: " << extension << std::endl;
+        }
+    }
+
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGui::StyleColorsLight();
