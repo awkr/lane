@@ -81,8 +81,8 @@ int main() {
 //        ImGui::ShowDemoWindow();
         ImGui::Render();
 
-        glClearColor(0.5f, 0.4f, 0.5f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        GLfloat clear_color[4] = {0.5f, 0.4f, 0.5f, 1.0f};
+        glClearBufferfv(GL_COLOR, 0, clear_color);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         glfwSwapBuffers(window);
